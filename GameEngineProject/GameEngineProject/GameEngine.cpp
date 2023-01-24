@@ -69,4 +69,40 @@ namespace GE {
 		//
 		return true;
 	}
+
+	//
+	//
+	bool GameEngine::keep_running() {
+		//
+		SDL_PumpEvents();
+
+		SDL_Event evt;
+
+		//
+		if (SDL_PeepEvents(&evt, 1, SDL_GETEVENT, SDL_QUIT, SDL_QUIT)) {
+			//
+			//
+			return false;
+		}
+
+		//
+		return true;
+	}
+
+	//
+	//
+	void GameEngine::update() {
+
+	}
+
+	//
+	//
+	void GameEngine::draw() {
+		glClearColor(0.392f, 0.584f, 0.929f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
+
+		SDL_GL_SwapWindow(window);
+	}
+
+
 }
