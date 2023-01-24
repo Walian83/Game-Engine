@@ -78,13 +78,13 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\SDL2-2.0.20\include;..\glew-2.1.0\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\SDL2-2.0.20\lib\x64;..\glew-2.1.0\lib\Release\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\SDL2-2.26.2\include;..\glew-2.1.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\SDL2-2.26.2\lib\x64;..\glew-2.1.0\lib\Release\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>..\SDL2-2.0.20\include;..\glew-2.1.0\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\SDL2-2.0.20\lib\x64;..\glew-2.1.0\lib\Release\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\SDL2-2.26.2\include;..\glew-2.1.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\SDL2-2.26.2\lib\x64;..\glew-2.1.0\lib\Release\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
