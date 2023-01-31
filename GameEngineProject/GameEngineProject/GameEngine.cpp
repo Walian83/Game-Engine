@@ -61,11 +61,11 @@ namespace GE {
 		}
 		//
 		//
-		if (SDL_GL_SetSwapInterval(1) != 0) {
+		/*if (SDL_GL_SetSwapInterval(1) != 0) {
 			std::cerr << "Warning: unable to set VSync! Error: " << SDL_GetError() << std::endl;
 
 			return false;
-		}
+		}*/
 		//
 		return true;
 	}
@@ -100,6 +100,16 @@ namespace GE {
 	void GameEngine::draw() {
 		glClearColor(0.392f, 0.584f, 0.929f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
+
+		glBegin(GL_TRIANGLES);
+			glColor3f(1.0f, 0.0f, 0.0f);
+			glVertex2f(-1.0f, 0.0f);
+			glColor3f(1.0f, 0.0f, 0.0f);
+			glVertex2f(1.0f, 0.0f);
+			glColor3f(1.0f, 0.0f, 0.0f);
+			glVertex2f(0.0f, 1.0f);
+
+		glEnd();
 
 		SDL_GL_SwapWindow(window);
 	}
