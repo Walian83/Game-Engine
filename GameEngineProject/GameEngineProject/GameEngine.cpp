@@ -104,5 +104,23 @@ namespace GE {
 		SDL_GL_SwapWindow(window);
 	}
 
+	//
+	void GameEngine::shutdown() {
+		SDL_DestroyWindow(window);
+
+		window = nullptr;
+
+		SDL_Quit();
+	}
+
+	void GameEngine::setwindowtitle(const char* new_title) {
+		SDL_SetWindowTitle(window, new_title);
+	}
+
+	void display_info_message(const char* msg) {
+		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "Basic Game Engine", msg, nullptr);
+	}
+
+
 
 }
