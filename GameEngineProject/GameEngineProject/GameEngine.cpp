@@ -109,6 +109,13 @@ namespace GE {
 			glColor3f(1.0f, 0.0f, 0.0f);
 			glVertex2f(0.0f, 1.0f);
 
+			glColor3f(0.0f, 1.0f, 0.0f);
+			glVertex2f(-1.0f, 0.0f);
+			glColor3f(0.0f, 1.0f, 0.0f);
+			glVertex2f(0.0f, -1.0f);
+			glColor3f(0.0f, 1.0f, 0.0f);
+			glVertex2f(1.0f, 0.0f);
+
 		glEnd();
 
 		SDL_GL_SwapWindow(window);
