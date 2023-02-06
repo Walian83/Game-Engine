@@ -108,7 +108,7 @@ namespace GE {
 	//
 	//
 	void GameEngine::update() {
-
+		triangle->setRotation(0.0f, triangle->getRotY() + 2.5f, 0.0f);
 	}
 
 	//
