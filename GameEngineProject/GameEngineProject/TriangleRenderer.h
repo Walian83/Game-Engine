@@ -31,7 +31,7 @@ namespace GE {
 
 		//
 		//
-		GLint vertexPos2dLocation;
+		GLint vertexPos2DLocation;
 
 		//
 		//

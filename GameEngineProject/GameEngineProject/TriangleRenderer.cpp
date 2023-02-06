@@ -121,5 +121,36 @@ namespace GE {
 		//
 		glAttachShader(programId, vertexShader);
 		glAttachShader(programId, fragmentShader);
+
+		//
+		//
+		//
+		glLinkProgram(programId);
+
+		//
+		GLint isProgramLinked = GL_FALSE;
+		glGetProgramiv(programId, GL_LINK_STATUS, &isProgramLinked);
+		if (isProgramLinked != GL_TRUE) {
+			std::cerr << "Failed to link program" << std::endl;
+		}
+
+		//
+		//
+		vertexPos2DLocation = glGetAttribLocation(programId, "vertex2D");
+
+		//
+		if (vertexPos2DLocation == -1) {
+			std::cerr << "Problem getting vertex2DPos" << std::endl;
+		}
+
+		//
+		glGenBuffers(1, &vboTriangle);
+		glBindBuffer(GL_ARRAY_BUFFER, vboTriangle);
+
+		//
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertexData), vertexData, GL_STATIC_DRAW);
+
+		//
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 }
