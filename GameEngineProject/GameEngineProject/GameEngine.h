@@ -3,6 +3,7 @@
 #include <GL/glew.h>
 #include <SDL.h>
 #include <SDL_opengl.h>
+#include "TriangleRenderer.h"
 
 namespace GE {
 	//Basic Game Engine class
@@ -29,6 +30,9 @@ namespace GE {
 
 		// SDL Gl context to represent OpenGL in the program
 		SDL_GLContext glContext;
+
+		// TriangleRenderer object variable
+		TriangleRenderer* triangle;
 	};
 
 	// Helper function

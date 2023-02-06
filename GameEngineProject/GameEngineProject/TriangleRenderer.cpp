@@ -136,7 +136,7 @@ namespace GE {
 
 		//
 		//
-		vertexPos2DLocation = glGetAttribLocation(programId, "vertex2D");
+		vertexPos2DLocation = glGetAttribLocation(programId, "vertexPos2D");
 
 		//
 		if (vertexPos2DLocation == -1) {
@@ -185,5 +185,12 @@ namespace GE {
 
 		//
 		glUseProgram(0);
+	}
+
+	//
+	void TriangleRenderer::destroy() {
+		glDeleteProgram(programId);
+
+		glDeleteBuffers(1, &vboTriangle);
 	}
 }

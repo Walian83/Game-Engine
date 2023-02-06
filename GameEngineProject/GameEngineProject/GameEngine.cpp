@@ -67,6 +67,13 @@ namespace GE {
 			return false;
 		}*/
 		//
+
+		// Create the TriangleRenderer object
+		triangle = new TriangleRenderer();
+
+		// Initialise the object
+		triangle->init();
+
 		return true;
 	}
 
@@ -101,6 +108,9 @@ namespace GE {
 		glClearColor(0.392f, 0.584f, 0.929f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
+		// Render the triangle
+		triangle->draw();
+
 		/*glBegin(GL_TRIANGLES);
 			glColor3f(1.0f, 0.0f, 0.0f);
 			glVertex2f(-1.0f, 0.0f);
@@ -130,21 +140,24 @@ namespace GE {
 		glVertex2f(-0.75, 0.75);*/
 
 		// Vertex3f
-		glBegin(GL_TRIANGLES);
+		/*glBegin(GL_TRIANGLES);
 			glColor3f(1.0f, 0.0f, 0.0f);
 			glVertex3f(-1.0f, 0.0f, 0.0f);
 			glColor3f(0.0f, 1.0f, 0.0f);
 			glVertex3f(1.0f, 0.0f, 0.0f);
 			glColor3f(0.0f, 0.0f, 1.0f);
-			glVertex3f(0.0f, 1.0f, 0.0f);
+			glVertex3f(0.0f, 1.0f, 0.0f);*/
 
-		glEnd();
+		//glEnd();
 
 		SDL_GL_SwapWindow(window);
 	}
 
 	//
 	void GameEngine::shutdown() {
+		// Get the triangle object to release its resources
+		triangle->destroy();
+
 		SDL_DestroyWindow(window);
 
 		window = nullptr;
