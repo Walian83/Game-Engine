@@ -68,11 +68,20 @@ namespace GE {
 		}*/
 		//
 
+		// Create camera object
+		cam = new Camera(glm::vec3(0.0f, 0.0f, 5.0f), // Position
+			glm::vec3(0.0f, 0.0f, 0.0f), // Look at
+			glm::vec3(0.0f, 1.0f, 0.0f), // Up direction
+			45.0f, 640.0f / 480.0f, 0.1f, 100.0f); // fov, aspect ratio based on window dimensions, near and far clip planes
+
 		// Create the TriangleRenderer object
 		triangle = new TriangleRenderer();
 
 		// Initialise the object
 		triangle->init();
+
+		triangle->setPos(0.0f, 0.0f, 0.0f);
+		triangle->setScale(1.0f, 1.0f, 1.0f);
 
 		return true;
 	}
@@ -109,7 +118,7 @@ namespace GE {
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		// Render the triangle
-		triangle->draw();
+		//triangle->draw();
 
 		/*glBegin(GL_TRIANGLES);
 			glColor3f(1.0f, 0.0f, 0.0f);
@@ -150,6 +159,10 @@ namespace GE {
 
 		//glEnd();
 
+		// Render the triangle
+		triangle->draw(cam);
+
+		// Show frame
 		SDL_GL_SwapWindow(window);
 	}
 

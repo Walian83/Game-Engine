@@ -4,6 +4,7 @@
 #include <SDL.h>
 #include <SDL_opengl.h>
 #include "TriangleRenderer.h"
+#include "Camera.h"
 
 namespace GE {
 	//Basic Game Engine class
@@ -30,6 +31,9 @@ namespace GE {
 
 		// SDL Gl context to represent OpenGL in the program
 		SDL_GLContext glContext;
+
+		// Camera
+		Camera* cam;
 
 		// TriangleRenderer object variable
 		TriangleRenderer* triangle;
