@@ -153,4 +153,37 @@ namespace GE {
 		//
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
+
+	//
+	void TriangleRenderer::update() {
+
+	}
+
+	//
+	void TriangleRenderer::draw() {
+		//
+		glUseProgram(programId);
+
+		//
+		glBindBuffer(GL_ARRAY_BUFFER, vboTriangle);
+
+		//
+		glEnableVertexAttribArray(vertexPos2DLocation);
+
+		//
+		//
+		glVertexAttribPointer(vertexPos2DLocation, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), nullptr);
+
+		//
+		glDrawArrays(GL_TRIANGLES, 0, 3);
+
+		//
+		glDisableVertexAttribArray(vertexPos2DLocation);
+
+		//
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+		//
+		glUseProgram(0);
+	}
 }
