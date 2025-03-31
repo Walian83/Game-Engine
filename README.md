@@ -20,5 +20,5 @@ coded and optimized to ensure good performance (at least 60 FPS).
 
 <p align="center">
 All the scripts can be found in:</br>
-"Game Prototype/Assets/Scripts"</br>
+"GameEngineProject/GameEngineProject"</br>
 (.h and .cpp files)
