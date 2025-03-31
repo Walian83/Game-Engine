@@ -3,7 +3,7 @@
  ### [YouTube Demonstration](https://youtu.be/keyvgoiMUwg)
 
 <h2>Description</h2>
-The project (written in C#) is my own game engine which I have created using and the SDL library. It has an alien world setting, with a few models - most static, but a few animated. It was carefully
+The project (written in C++) is my own game engine which I have created using and the SDL library. It has an alien world setting, with a few models - most static, but a few animated. It was carefully
 coded and optimized to ensure good performance (at least 60 FPS).
 <br />
 
