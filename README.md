@@ -34,7 +34,7 @@ Game Engine Window - Skybox + HUD: <br/>
 <br />
 
 <p align="center">
-Vertex Shader and Fragment Shader Code: <br/>
+Vertex Shader and Fragment Shader Code (ModelRenderer.cpp): <br/>
 <img src="https://i.imgur.com/dKNTQf7.png" height="80%" width="80%" alt="Mobile Game Screenshot"/>
 <br />
 
