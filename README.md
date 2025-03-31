@@ -9,7 +9,7 @@ coded and optimized to ensure good performance (at least 60 FPS).
 
 <h2>Languages and Utilities Used</h2>
 
-- <b>C#</b>
+- <b>C++</b>
 - <b>SDL Library</b>
 
 <h2>Environments Used </h2>
