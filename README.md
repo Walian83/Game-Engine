@@ -22,3 +22,23 @@ coded and optimized to ensure good performance (at least 60 FPS).
 All the scripts can be found in:</br>
 "GameEngineProject/GameEngineProject"</br>
 (.h and .cpp files)
+
+<p align="center">
+Game Engine Window - Models: <br/>
+<img src="https://i.imgur.com/Msb5RA7.png" height="80%" width="80%" alt="Mobile Game Screenshot"/>
+<br />
+
+<p align="center">
+Game Engine Window - Skybox + HUD: <br/>
+<img src="https://i.imgur.com/UpWJZtB.png" height="80%" width="80%" alt="Mobile Game Screenshot"/>
+<br />
+
+<p align="center">
+Vertex Shader and Fragment Shader Code: <br/>
+<img src="https://i.imgur.com/dKNTQf7.png" height="80%" width="80%" alt="Mobile Game Screenshot"/>
+<br />
+
+<p align="center">
+Models Code (GameEngine.cpp): <br/>
+<img src="https://i.imgur.com/GwEBsgu.png" height="80%" width="80%" alt="Mobile Game Screenshot"/>
+<br />
