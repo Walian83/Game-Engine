@@ -1,4 +1,4 @@
-#include "TriangleRenderer.h"
+#include "ModelRenderer.h"
 #include <iostream>
 #include <glm/gtc/type_ptr.hpp>
 
@@ -7,61 +7,69 @@ namespace GE {
 	struct Vertex {
 		// Location
 		float x, y, z;
-		float r, g, b, a;
+		float u, v;
 
 		// Constructors
 		// Sets the vertex to passed values
-		Vertex(float _x, float _y, float _z, float _r, float _g, float _b, float _a) {
+		Vertex(float _x, float _y, float _z, float _u, float _v) {
 			// Location
 			x = _x;
 			y = _y;
 			z = _z;
 
 			// Colour
-			r = _r;
-			g = _g;
-			b = _b;
-			a = _a;
+			u = _u;
+			v = _v;
 		}
 
 		// Sets vertex to origin and no colour
 		Vertex() {
 			x = y = z = 0.0f;
-			r = g = b = 0.0f;
+			u = v = 0.0f;
 		}
 	};
 	// Define the triangle's vertices
-	Vertex vertexData[] = {
-		       // xyz coords      rgba
-		Vertex(-1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f),
-		Vertex( 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f),
-		Vertex( 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f)
-	};
+	//Vertex vertexDataM[] = {
+	//			// xyz coords      rgba
+	//	Vertex(-1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f),
+	//	Vertex(1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f),
+	//	Vertex(0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f)
+	//};
 
 	/*GLfloat vertexData[] = {
 		-1.0f, 0.0f, 0.0f,
 		1.0f, 0.0f, 0.0f,
 		0.0f, 1.0f, 0.0f
 	};*/
-	
+
 	//
-	TriangleRenderer::TriangleRenderer()
+	ModelRenderer::ModelRenderer()
 	{
 		// Initialise location, rotation and scale to default values
 		pos_x = pos_y = pos_z = 0.0f;
 		rot_x = rot_y = rot_z = 0.0f;
 		scale_x = scale_y = scale_z = 1.0f;
+
+		programId = 0;
+
+		vertexLocation = 0;
+
+		vertexUVLocation = 0;
+
+		transformUniformId = 0;
+		viewUniformId = 0;
+		projectionUniformId = 0;
 	}
 
 	//
-	TriangleRenderer::~TriangleRenderer()
+	ModelRenderer::~ModelRenderer()
 	{
 
 	}
 
 	//
 	//
-	void displayShaderCompilerError(GLuint shaderId) {
+	void displayShaderCompilerErrorM(GLuint shaderId) {
 		//
 		GLint MsgLen = 0;
 
@@ -85,7 +93,7 @@ namespace GE {
 		}
 	}
 
-	void TriangleRenderer::init() {
+	void ModelRenderer::init() {
 		//
 		//
 		//
@@ -95,14 +103,26 @@ namespace GE {
 		const GLchar* V_ShaderCode[] = {
 			"#version 140\n"
 			"in vec3 vertexPos3D;\n"
-			"in vec4 vColour;\n"
-			"out vec4 fColour;\n"
+			"in vec2 vUV;\n"
+			"out vec2 uv;\n"
 			"uniform mat4 viewMat;\n"
 			"uniform mat4 projMat;\n"
 			"uniform mat4 transformMat;\n"
+			"out float fog_amount;\n"
+			"uniform float fog_density;\n"
 			"void main() {\n"
+			/*"vec4 v = vec4(vertexPos3D.xyz, 1);\n"
+			"v = projMat * viewMat * transformMat * v;\n"
+			"gl_Position = v;"*/
 			"gl_Position = projMat * viewMat * transformMat * vec4(vertexPos3D.x, vertexPos3D.y, vertexPos3D.z, 1);\n"
-			"fColour = vColour;\n"
+			//"vec4 posInWorld = transformMat * gl_Position;\n"
+			"vec4 v = vec4(vertexPos3D.xyz, 1);\n"
+			"vec4 posInWorld = transformMat * gl_Position;\n"
+			"uv = vUV;\n"
+			"vec4 pos_rel_eye = viewMat * posInWorld;\n"
+			"float distance = length(pos_rel_eye.xyz);\n"
+			"fog_amount = 0.9 - exp(-pow(distance * fog_density, 2.0f));\n"
+			"fog_amount = clamp(fog_amount, 0.0f, 1.0f);\n"
 			"}\n" };
 
 		//
@@ -114,7 +134,7 @@ namespace GE {
 		//
 		//
 		GLint isShaderCompiledOK = GL_FALSE;
-		
+
 		//
 		glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &isShaderCompiledOK);
 
@@ -123,7 +143,7 @@ namespace GE {
 			//
 			std::cerr << "Unable to compile vertex shader" << std::endl;
 
-			displayShaderCompilerError(vertexShader);
+			displayShaderCompilerErrorM(vertexShader);
 
 			return;
 		}
@@ -134,11 +154,15 @@ namespace GE {
 		//
 		const GLchar* F_ShaderCode[] = {
 			"#version 140\n"
-			"in vec4 fColour;\n"
+			"in vec2 uv;\n"
+			"in float fog_amount;\n"
+			"uniform vec3 fog_colour;\n"
+			"uniform sampler2D sampler;\n"
 			"out vec4 fragmentColour;\n"
 			"void main()\n"
 			"{\n"
-			"fragmentColour = fColour;\n"
+			"vec4 colour = texture(sampler, uv).rgba;\n"
+			"fragmentColour = mix(colour, vec4(fog_colour, 1.0f), fog_amount);\n"
 			"}\n"
 		};
 
@@ -156,7 +180,7 @@ namespace GE {
 		if (isShaderCompiledOK != GL_TRUE) {
 			std::cerr << "Unable to compile fragment shader" << std::endl;
 
-			displayShaderCompilerError(fragmentShader);
+			displayShaderCompilerErrorM(fragmentShader);
 
 			return;
 		}
@@ -182,21 +206,21 @@ namespace GE {
 
 		//
 		//
-		vertexPos3DLocation = glGetAttribLocation(programId, "vertexPos3D");
+		vertexLocation = glGetAttribLocation(programId, "vertexPos3D");
 
 		//
-		if (vertexPos3DLocation == -1) {
+		if (vertexLocation == -1) {
 			std::cerr << "Problem getting vertex3DPos" << std::endl;
 		}
 
 		// Now get a link to the vColour attribute in the vertex shader
 		// so we can indicate to the pipeline where the colour data is to be 
 		// inserted
-		vertexColourLocation = glGetAttribLocation(programId, "vColour");
+		vertexUVLocation = glGetAttribLocation(programId, "vUV");
 
 		// Check for errors
-		if (vertexColourLocation == -1) {
-			std::cerr << "Problem getting vColour" << std::endl;
+		if (vertexUVLocation == -1) {
+			std::cerr << "Problem getting vUV" << std::endl;
 		}
 
 		// Get uniform id in shader so C++ program can send data to it
@@ -204,25 +228,38 @@ namespace GE {
 		projectionUniformId = glGetUniformLocation(programId, "projMat");
 		// Transformation matrix uniform
 		transformUniformId = glGetUniformLocation(programId, "transformMat");
+		samplerId = glGetUniformLocation(programId, "sampler");
 
-		//
-		glGenBuffers(1, &vboTriangle);
-		glBindBuffer(GL_ARRAY_BUFFER, vboTriangle);
+		// Link to fog uniforms
+		fogColourId = glGetUniformLocation(programId, "fog_colour");
 
-		//
-		glBufferData(GL_ARRAY_BUFFER, sizeof(vertexData), vertexData, GL_STATIC_DRAW);
+		// Exponential fog
+		fogDensityId = glGetUniformLocation(programId, "fog_density");	
+
+		// Set fog values in shader in init means the
+		// fog doesn't change for the run of the  game
+		// Do this if want constant fog
+		glUseProgram(programId);
+		glUniform1f(fogDensityId, 0.0015f);
+		glm::vec3 fog_colour = glm::vec3(0.5f, 0.5f, 0.5f);
+		glUniform3fv(fogColourId, 1, glm::value_ptr(fog_colour));
+		// Select the program into the rendering context
+		glUseProgram(0);
 
 		//
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
 	//
-	void TriangleRenderer::update() {
+	void ModelRenderer::update() {
 
 	}
 
 	//
-	void TriangleRenderer::draw(Camera* cam) {
+	void ModelRenderer::draw(Camera* cam, Model* model) {
+
+		glEnable(GL_CULL_FACE);
+
 		// Calculate the transformation matrix for the object. Start with the identity matrix
 		glm::mat4 transformationMat = glm::mat4(1.0f);
 
@@ -245,42 +282,47 @@ namespace GE {
 		glUniformMatrix4fv(projectionUniformId, 1, GL_FALSE, glm::value_ptr(projectionMat));
 
 		//
-		glBindBuffer(GL_ARRAY_BUFFER, vboTriangle);
+		glBindBuffer(GL_ARRAY_BUFFER, model->getVertices());
 
 		//
-		glEnableVertexAttribArray(vertexPos3DLocation);
-
-		//
-		//
-		glVertexAttribPointer(vertexPos3DLocation, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *) offsetof(Vertex, x));
-
-		//
-		glEnableVertexAttribArray(vertexColourLocation);
+		glEnableVertexAttribArray(vertexLocation);
 
 		//
 		//
-		glVertexAttribPointer(vertexColourLocation, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, r));
+		glVertexAttribPointer(vertexLocation, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, x));
 
 		//
-		glDrawArrays(GL_TRIANGLES, 0, sizeof(vertexData) / sizeof(Vertex));
+		glEnableVertexAttribArray(vertexUVLocation);
 
 		//
-		glDisableVertexAttribArray(vertexPos3DLocation);
+		//
+		glVertexAttribPointer(vertexUVLocation, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, u));
+
+		// Select the texture
+		glActiveTexture(GL_TEXTURE0);
+		glUniform1i(samplerId, 0);
+		glBindTexture(GL_TEXTURE_2D, tex->getTextureName());
 
 		//
-		glDisableVertexAttribArray(vertexColourLocation);
+		glDrawArrays(GL_TRIANGLES, 0, model->getNumVertices());
+
+		//
+		glDisableVertexAttribArray(vertexLocation);
+
+		//
+		glDisableVertexAttribArray(vertexUVLocation);
 
 		//
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 		//
 		glUseProgram(0);
+
+		glDisable(GL_CULL_FACE);
 	}
 
 	//
-	void TriangleRenderer::destroy() {
+	void ModelRenderer::destroy() {
 		glDeleteProgram(programId);
-
-		glDeleteBuffers(1, &vboTriangle);
 	}
 }

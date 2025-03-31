@@ -1,4 +1,4 @@
-#include "TriangleRenderer.h"
+#include "CubeRenderer.h"
 #include <iostream>
 #include <glm/gtc/type_ptr.hpp>
 
@@ -31,11 +31,60 @@ namespace GE {
 		}
 	};
 	// Define the triangle's vertices
-	Vertex vertexData[] = {
-		       // xyz coords      rgba
-		Vertex(-1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f),
-		Vertex( 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f),
-		Vertex( 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f)
+	Vertex vertexData2[] = {
+		     // xyz coords      rgba
+		Vertex(-0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 1.0f),
+		Vertex(-0.5f, 0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 1.0f),
+		Vertex(0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 1.0f),
+
+		Vertex(-0.5f, 0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 1.0f),
+		Vertex(0.5f, 0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 1.0f),
+		Vertex(0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 1.0f),
+
+		// Right side face
+		Vertex(0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f),
+		Vertex(0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f),
+		Vertex(0.5f, -0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f),
+
+		Vertex(0.5f, -0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f),
+		Vertex(0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f),
+		Vertex(0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f),
+
+		//// Back face, note that points are in counter clockwise order
+		Vertex(-0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f),
+		Vertex(0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f),
+		Vertex(0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f),
+
+		Vertex(0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f),
+		Vertex(-0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f),
+		Vertex(-0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f),
+
+		//// Left side face, note that points are in counter clockwise order
+		Vertex(-0.5f, 0.5f, 0.5f, 1.0f, 1.0f, 0.0f, 1.0f),
+		Vertex(-0.5f, 0.5f, -0.5f, 1.0f, 1.0f, 0.0f, 1.0f),
+		Vertex(-0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 0.0f, 1.0f),
+
+		Vertex(-0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 0.0f, 1.0f),
+		Vertex(-0.5f, -0.5f, 0.5f, 1.0f, 1.0f, 0.0f, 1.0f),
+		Vertex(-0.5f, 0.5f, 0.5f, 1.0f, 1.0f, 0.0f, 1.0f),
+
+		//// Top face
+		Vertex(-0.5f, 0.5f, -0.5f, 1.0f, 0.0f, 1.0f, 1.0f),
+		Vertex(-0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 1.0f, 1.0f),
+		Vertex(0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 1.0f, 1.0f),
+
+		Vertex(0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 1.0f, 1.0f),
+		Vertex(0.5f, 0.5f, -0.5f, 1.0f, 0.0f, 1.0f, 1.0f),
+		Vertex(-0.5f, 0.5f, -0.5f, 1.0f, 0.0f, 1.0f, 1.0f),
+
+		//// Bottom face, note that points are in counter clockwise order
+		Vertex(-0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 1.0f),
+		Vertex(0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 1.0f),
+		Vertex(0.5f, -0.5f, 0.5f, 0.0f, 1.0f, 1.0f, 1.0f),
+
+		Vertex(0.5f, -0.5f, 0.5f, 0.0f, 1.0f, 1.0f, 1.0f),
+		Vertex(-0.5f, -0.5f, 0.5f, 0.0f, 1.0f, 1.0f, 1.0f),
+		Vertex(-0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 1.0f),
 	};
 
 	/*GLfloat vertexData[] = {
@@ -43,9 +92,9 @@ namespace GE {
 		1.0f, 0.0f, 0.0f,
 		0.0f, 1.0f, 0.0f
 	};*/
-	
+
 	//
-	TriangleRenderer::TriangleRenderer()
+	CubeRenderer::CubeRenderer()
 	{
 		// Initialise location, rotation and scale to default values
 		pos_x = pos_y = pos_z = 0.0f;
@@ -54,14 +103,14 @@ namespace GE {
 	}
 
 	//
-	TriangleRenderer::~TriangleRenderer()
+	CubeRenderer::~CubeRenderer()
 	{
 
 	}
 
 	//
 	//
-	void displayShaderCompilerError(GLuint shaderId) {
+	void displayShaderCompilerError2(GLuint shaderId) {
 		//
 		GLint MsgLen = 0;
 
@@ -85,7 +134,7 @@ namespace GE {
 		}
 	}
 
-	void TriangleRenderer::init() {
+	void CubeRenderer::init() {
 		//
 		//
 		//
@@ -114,7 +163,7 @@ namespace GE {
 		//
 		//
 		GLint isShaderCompiledOK = GL_FALSE;
-		
+
 		//
 		glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &isShaderCompiledOK);
 
@@ -123,7 +172,7 @@ namespace GE {
 			//
 			std::cerr << "Unable to compile vertex shader" << std::endl;
 
-			displayShaderCompilerError(vertexShader);
+			displayShaderCompilerError2(vertexShader);
 
 			return;
 		}
@@ -156,7 +205,7 @@ namespace GE {
 		if (isShaderCompiledOK != GL_TRUE) {
 			std::cerr << "Unable to compile fragment shader" << std::endl;
 
-			displayShaderCompilerError(fragmentShader);
+			displayShaderCompilerError2(fragmentShader);
 
 			return;
 		}
@@ -210,19 +259,19 @@ namespace GE {
 		glBindBuffer(GL_ARRAY_BUFFER, vboTriangle);
 
 		//
-		glBufferData(GL_ARRAY_BUFFER, sizeof(vertexData), vertexData, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertexData2), vertexData2, GL_STATIC_DRAW);
 
 		//
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
 	//
-	void TriangleRenderer::update() {
+	void CubeRenderer::update() {
 
 	}
 
 	//
-	void TriangleRenderer::draw(Camera* cam) {
+	void CubeRenderer::draw(Camera* cam) {
 		// Calculate the transformation matrix for the object. Start with the identity matrix
 		glm::mat4 transformationMat = glm::mat4(1.0f);
 
@@ -252,7 +301,7 @@ namespace GE {
 
 		//
 		//
-		glVertexAttribPointer(vertexPos3DLocation, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *) offsetof(Vertex, x));
+		glVertexAttribPointer(vertexPos3DLocation, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, x));
 
 		//
 		glEnableVertexAttribArray(vertexColourLocation);
@@ -262,7 +311,7 @@ namespace GE {
 		glVertexAttribPointer(vertexColourLocation, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, r));
 
 		//
-		glDrawArrays(GL_TRIANGLES, 0, sizeof(vertexData) / sizeof(Vertex));
+		glDrawArrays(GL_TRIANGLES, 0, sizeof(vertexData2) / sizeof(Vertex));
 
 		//
 		glDisableVertexAttribArray(vertexPos3DLocation);
@@ -278,7 +327,7 @@ namespace GE {
 	}
 
 	//
-	void TriangleRenderer::destroy() {
+	void CubeRenderer::destroy() {
 		glDeleteProgram(programId);
 
 		glDeleteBuffers(1, &vboTriangle);

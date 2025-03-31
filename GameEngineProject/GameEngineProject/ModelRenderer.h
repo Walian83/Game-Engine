@@ -4,13 +4,15 @@
 #include <SDL.h>
 #include <SDL_opengl.h>
 #include <glm/glm.hpp>
+#include "Model.h"
 #include "Camera.h"
+#include "Texture.h"
 
 namespace GE {
-	class TriangleRenderer {
+	class ModelRenderer {
 	public:
-		TriangleRenderer();
-		virtual ~TriangleRenderer();
+		ModelRenderer();
+		virtual ~ModelRenderer();
 
 		// init method to create the shaders and vertex buffer object
 		void init();
@@ -21,7 +23,7 @@ namespace GE {
 		void update();
 
 		//
-		void draw(Camera* cam);
+		void draw(Camera* cam, Model *model);
 
 		//
 		void destroy();
@@ -85,6 +87,11 @@ namespace GE {
 			scale_z = sz;
 		}
 
+		// Texture methods
+		void setTexture(Texture* _tex) {
+			tex = _tex;
+		}
+
 	private:
 		//
 		//
@@ -92,15 +99,11 @@ namespace GE {
 
 		//
 		//
-		GLint vertexPos3DLocation;
+		GLint vertexLocation;
 
 		//
 		//
-		GLint vertexColourLocation;
-
-		//
-		//
-		GLuint vboTriangle;
+		GLint vertexUVLocation;
 
 		// Location, rotation and scale variables
 		float pos_x, pos_y, pos_z;
@@ -111,5 +114,15 @@ namespace GE {
 		GLuint transformUniformId;
 		GLuint viewUniformId;
 		GLuint projectionUniformId;
+		GLuint samplerId;
+
+		// Texture to apply to model
+		Texture* tex;
+
+		// Member fields
+		// Fog uniform link variables
+		GLuint fogColourId;
+		GLuint fogDensityId;
 	};
 }
+

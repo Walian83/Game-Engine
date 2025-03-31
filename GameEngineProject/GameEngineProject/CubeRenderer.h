@@ -7,10 +7,10 @@
 #include "Camera.h"
 
 namespace GE {
-	class TriangleRenderer {
+	class CubeRenderer {
 	public:
-		TriangleRenderer();
-		virtual ~TriangleRenderer();
+		CubeRenderer();
+		virtual ~CubeRenderer();
 
 		// init method to create the shaders and vertex buffer object
 		void init();
@@ -113,3 +113,5 @@ namespace GE {
 		GLuint projectionUniformId;
 	};
 }
+
+
