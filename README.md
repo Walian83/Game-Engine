@@ -16,7 +16,7 @@ coded and optimized to ensure good performance (at least 60 FPS).
 
 - <b>Visual Studio</b>
 
-<h2>Game and Code Screenshots</h2>
+<h2>Program and Code Screenshots</h2>
 
 <p align="center">
 All the scripts can be found in:</br>
